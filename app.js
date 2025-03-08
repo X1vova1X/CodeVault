@@ -62,7 +62,7 @@ app.get('/adminpublish', async (req, res) => {
             <title>Error</title>
         </head>
         <body>
-            <code>Cannot GET /indexAdmin</code>
+            <code>Cannot GET /adminpublish</code>
         </body>
         </html>`)
     }
