@@ -18,7 +18,7 @@
         }
         .search-container {
             display: flex;
-            align-items: center; /* Center align items vertically */
+            align-items: center;
             margin-bottom: 20px;
         }
         input[type="text"] {
@@ -27,7 +27,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            margin-right: 5px; /* Reduced margin */
+            margin-right: 5px;
         }
         button {
             padding: 10px 15px;
@@ -73,13 +73,13 @@
             <input type="text" name="search" value="<%= searchQuery %>" placeholder="Search by title or language..." />
             <button type="submit">Search</button>
         </form>
-        <a href="/publish"><button style="margin-left: -140px;">Publish New Code</button></a> <!-- Reduced margin -->
+        <a href="/publish"><button style="margin-left: 10px;">Publish New Code</button></a>
     </div>
 
     <div class="entries">
         <h2>Published Entries</h2>
-        <% entries.forEach(function(entry, index) { %>
-            <div class="entry-preview" onclick="window.location.href='/entry/<%= index %>';">
+        <% entries.forEach(function(entry) { %>
+            <div class="entry-preview" onclick="window.location.href='/entry/<%= encodeURIComponent(entry.title) %>';">
                 <h3><%= entry.title %></h3>
                 <p><%= entry.description %></p>
                 <p><strong>Language:</strong> <span class="language-tag"><%= entry.language %></span></p>
