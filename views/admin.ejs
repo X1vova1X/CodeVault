@@ -95,18 +95,6 @@
                 fetch('/delete?key=' + entryId, {
                     method: 'DELETE'
                 })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Entry deleted successfully.');
-                        window.location.reload(); // Refresh the page after deletion
-                    } else {
-                        alert('Failed to delete the entry.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while deleting the entry.');
-                });
             }
         }
     </script>
