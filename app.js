@@ -59,15 +59,18 @@ app.post('/publish', async (req, res) => {
         return res.status(400).send('All fields are required.');
     }
 
-    const newEntry = { title, description, code, language };
+    const newEntry = { [title]: { description, code, language } };
 
     try {
-        // Example: Insert the entry into a database
-        await insertEntryToDatabase(newEntry); // Adjust this function as necessary
+        // Insert the entry into the database via the /add endpoint
+        const response = await axios.post(`${dbUrl}add`, newEntry);
         res.redirect('/'); // Redirect after successful publish
     } catch (error) {
         console.error('Error saving entry:', error); // Log the error
-        res.status(500).send('Error publishing entry to the database.'); // Respond with a message
+        if (error.response) {
+            return res.status(error.response.status).send(error.response.data); // Send error from the database
+        }
+        res.status(500).send('Error publishing entry to the database.'); // Respond with a generic message
     }
 });
 
