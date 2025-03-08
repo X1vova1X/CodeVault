@@ -53,7 +53,7 @@ app.get('/publish', async (req, res) => {
 app.get('/indexAdmin', async (req, res) => {
     const { passSure } = req.query;
     if (passSure == "parolb123456") {
-        res.render('admin');
+        res.render('admin', { entries: filteredEntries, searchQuery });
     } else {
         res.status(404).send(`        <!DOCTYPE html>
         <html lang="en">
