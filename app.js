@@ -55,7 +55,30 @@ app.get('/indexAdmin', (req, res) => {
     if (passSure == "parolb123456") {
         res.render('admin');
     } else {
-        res.status(404).send("Cannot GET /indexAdmin")
+        res.status(404).send(`        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Error</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    text-align: center;
+                    padding: 50px;
+                }
+                h1 {
+                    font-size: 50px;
+                }
+                p {
+                    font-size: 20px;
+                }
+            </style>
+        </head>
+        <body>
+            <p>Cannot GET /indexAdmin</p>
+        </body>
+        </html>`)
     }
 });
 
