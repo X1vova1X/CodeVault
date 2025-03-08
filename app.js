@@ -22,16 +22,23 @@ app.get('/', async (req, res) => {
         const response = await axios.get(`${dbUrl}db`);
         const entries = response.data;
 
-        const filteredEntries = entries.filter(entry => 
+        // Check if entries is an object
+        const transformedEntries = Array.isArray(entries)
+            ? entries
+            : Object.entries(entries).map(([key, value]) => ({
+                title: key,
+                ...value
+            }));
+
+        const filteredEntries = transformedEntries.filter(entry => 
             entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             entry.language.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
         res.render('index', { entries: filteredEntries, searchQuery });
     } catch (error) {
-        console.error('Error details:', error.message); // Log error details
+        console.error('Error details:', error.message);
         if (error.response) {
-            console.error('Response data:', error.response.data); // Log response data if available
             return res.status(error.response.status).send(error.response.data);
         }
         res.status(500).send('Error retrieving entries from the database.');
