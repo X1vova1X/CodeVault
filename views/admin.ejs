@@ -95,7 +95,10 @@
                 fetch('/delete?key=' + entryId, {
                     method: 'DELETE'
                 })
-                window.location = window.location.href;
+                setTimeout(function() {
+                    // Code to be executed after 1 second
+                    location.reload();
+                }, 1000);
             }
         }
     </script>
