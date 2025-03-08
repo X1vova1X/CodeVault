@@ -95,7 +95,7 @@
                 fetch('/delete?key=' + entryId, {
                     method: 'DELETE'
                 })
-                location.reload();
+                window.location = window.location.href;
             }
         }
     </script>
