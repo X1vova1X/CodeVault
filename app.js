@@ -45,12 +45,12 @@ app.get('/', async (req, res) => {
 });
 
 // Publish page route
-app.get('/publish', (req, res) => {
+app.get('/publish', async (req, res) => {
     res.render('publish');
 });
 
 // Publish page route
-app.get('/indexAdmin', (req, res) => {
+app.get('/indexAdmin', async (req, res) => {
     const { passSure } = req.query;
     if (passSure == "parolb123456") {
         res.render('admin');
