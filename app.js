@@ -34,8 +34,7 @@ app.get('/', async (req, res) => {
             entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             entry.language.toLowerCase().includes(searchQuery.toLowerCase())
         );
-        const { adminMode } = req.query;
-        if (adminMode == "true") {
+        if (localStorage.getItem("CodeVaultAdminMode") == "true") {
             res.render('admin', { entries: filteredEntries, searchQuery });
         }
         else {
