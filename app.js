@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const axios = require('axios');
 
 const app = express();
 const port = 3000;
+const dbUrl = 'http://67.220.85.146:6048/';
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,18 +15,22 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Store published entries
-let entries = [];
-
 // Main page route
-// Main page route
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     const searchQuery = req.query.search || '';
-    const filteredEntries = entries.filter(entry => 
-        entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        entry.language.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    res.render('index', { entries: filteredEntries, searchQuery });
+    try {
+        const response = await axios.get(`${dbUrl}db`);
+        const entries = response.data;
+
+        const filteredEntries = entries.filter(entry => 
+            entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            entry.language.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        res.render('index', { entries: filteredEntries, searchQuery });
+    } catch (error) {
+        res.status(500).send('Error retrieving entries from the database.');
+    }
 });
 
 // Publish page route
@@ -33,21 +39,30 @@ app.get('/publish', (req, res) => {
 });
 
 // Publish entry route
-app.post('/publish', (req, res) => {
+app.post('/publish', async (req, res) => {
     const { title, description, code, language } = req.body;
     if (title && description && code && language) {
-        entries.push({ title, description, code, language });
+        try {
+            await axios.post(`${dbUrl}add`, { key: title, value: { description, code, language } });
+        } catch (error) {
+            return res.status(500).send('Error publishing entry to the database.');
+        }
     }
     res.redirect('/');
 });
 
 // Individual entry route
-app.get('/entry/:id', (req, res) => {
-    const entryId = parseInt(req.params.id, 10);
-    if (entryId >= 0 && entryId < entries.length) {
-        res.render('entry', { entry: entries[entryId] });
-    } else {
-        res.status(404).send('Entry not found');
+app.get('/entry/:id', async (req, res) => {
+    const entryId = req.params.id;
+    try {
+        const response = await axios.get(`${dbUrl}info/${entryId}`);
+        if (response.data.exists) {
+            res.render('entry', { entry: response.data.value });
+        } else {
+            res.status(404).send('Entry not found');
+        }
+    } catch (error) {
+        res.status(500).send('Error retrieving entry from the database.');
     }
 });
 
