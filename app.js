@@ -74,6 +74,12 @@ app.post('/publish', async (req, res) => {
     }
 });
 
+app.delete('/delete', async (req, res) => {
+    const { key } = req.query;
+    const response = await axios.delete(`${dbUrl}remove?key=${key}`)
+    res.redirect('/');
+})
+
 // Individual entry route
 app.get('/entry/:title', async (req, res) => {
     const title = req.params.title; // Retrieve the title from the parameters
