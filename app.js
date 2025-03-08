@@ -29,6 +29,11 @@ app.get('/', async (req, res) => {
 
         res.render('index', { entries: filteredEntries, searchQuery });
     } catch (error) {
+        console.error('Error details:', error.message); // Log error details
+        if (error.response) {
+            console.error('Response data:', error.response.data); // Log response data if available
+            return res.status(error.response.status).send(error.response.data);
+        }
         res.status(500).send('Error retrieving entries from the database.');
     }
 });
