@@ -64,16 +64,17 @@ app.post('/publish', async (req, res) => {
 });
 
 // Individual entry route
-app.get('/entry/:id', async (req, res) => {
-    const entryId = req.params.id;
+app.get('/entry/:title', async (req, res) => {
+    const title = req.params.title; // Retrieve the title from the parameters
     try {
-        const response = await axios.get(`${dbUrl}info/${entryId}`);
+        const response = await axios.get(`${dbUrl}info/${title}`);
         if (response.data.exists) {
             res.render('entry', { entry: response.data.value });
         } else {
             res.status(404).send('Entry not found');
         }
     } catch (error) {
+        console.error('Error details:', error.message);
         res.status(500).send('Error retrieving entry from the database.');
     }
 });
