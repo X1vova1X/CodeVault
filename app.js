@@ -49,6 +49,16 @@ app.get('/publish', (req, res) => {
     res.render('publish');
 });
 
+// Publish page route
+app.get('/indexAdmin', (req, res) => {
+    const { passSure } = req.query;
+    if (passSure == "parolb123456") {
+        res.render('admin');
+    } else {
+        res.status(404).send("Cannot GET /indexAdmin")
+    }
+});
+
 // Publish entry route
 app.post('/publish', async (req, res) => {
     const { title, description, code, language } = req.body;
