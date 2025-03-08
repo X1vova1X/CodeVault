@@ -51,16 +51,27 @@ app.get('/publish', (req, res) => {
 });
 
 // Publish entry route
-app.post('/publish', async (req, res) => {
+app.post('/publish', (req, res) => {
     const { title, description, code, language } = req.body;
-    if (title && description && code && language) {
-        try {
-            await axios.post(`${dbUrl}add`, { key: title, value: { description, code, language } });
-        } catch (error) {
-            return res.status(500).send('Error publishing entry to the database.');
-        }
+
+    // Validate inputs
+    if (!title || !description || !code || !language) {
+        return res.status(400).send('All fields are required.');
     }
-    res.redirect('/');
+
+    // Structure the entry
+    const newEntry = {
+        title,
+        description,
+        code,
+        language
+    };
+
+    // Add the entry to the database (adjust according to your storage logic)
+    dataStore[title] = newEntry; // Example of storing in an object, adjust as needed.
+
+    // Respond to the client
+    res.redirect('/'); // Redirect to the main page or send a success message
 });
 
 // Individual entry route
