@@ -40,7 +40,7 @@
 <body>
     <h1><%= entry.title %></h1>
     <p><strong>Description:</strong> <%= entry.description %></p>
-    <pre><code class="language-lua" id="code"><%= entry.code %></code></pre>
+    <pre><code class="language-<%= entry.language.toLowerCase() %>" id="code"><%= entry.code %></code></pre>
     <button onclick="copyCode()">Copy Code</button>
     <button onclick="window.history.back();">Go Back</button>
 
