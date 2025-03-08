@@ -34,12 +34,7 @@ app.get('/', async (req, res) => {
             entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             entry.language.toLowerCase().includes(searchQuery.toLowerCase())
         );
-        const { adminMode } = req.query;
-        if (adminMode == "true") {
-            res.render('admin', { entries: filteredEntries, searchQuery });
-        } else {
-            res.render('index', { entries: filteredEntries, searchQuery });
-        }
+        res.render('index', { entries: filteredEntries, searchQuery });
     } catch (error) {
         console.error('Error details:', error.message);
         if (error.response) {
