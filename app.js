@@ -51,7 +51,7 @@ app.get('/publish', (req, res) => {
 });
 
 // Publish entry route
-app.post('/publish', (req, res) => {
+app.post('/publish', async (req, res) => {
     const { title, description, code, language } = req.body;
 
     // Validate inputs
@@ -59,19 +59,16 @@ app.post('/publish', (req, res) => {
         return res.status(400).send('All fields are required.');
     }
 
-    // Structure the entry
-    const newEntry = {
-        title,
-        description,
-        code,
-        language
-    };
+    const newEntry = { title, description, code, language };
 
-    // Add the entry to the database (adjust according to your storage logic)
-    dataStore[title] = newEntry; // Example of storing in an object, adjust as needed.
-
-    // Respond to the client
-    res.redirect('/'); // Redirect to the main page or send a success message
+    try {
+        // Example: Insert the entry into a database
+        await insertEntryToDatabase(newEntry); // Adjust this function as necessary
+        res.redirect('/'); // Redirect after successful publish
+    } catch (error) {
+        console.error('Error saving entry:', error); // Log the error
+        res.status(500).send('Error publishing entry to the database.'); // Respond with a message
+    }
 });
 
 // Individual entry route
