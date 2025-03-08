@@ -61,22 +61,9 @@ app.get('/indexAdmin', (req, res) => {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Error</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    text-align: center;
-                    padding: 50px;
-                }
-                h1 {
-                    font-size: 50px;
-                }
-                p {
-                    font-size: 20px;
-                }
-            </style>
         </head>
         <body>
-            <p>Cannot GET /indexAdmin</p>
+            <code>Cannot GET /indexAdmin</code>
         </body>
         </html>`)
     }
