@@ -53,7 +53,31 @@ app.get('/publish', async (req, res) => {
 app.get('/indexAdmin', async (req, res) => {
     const { passSure } = req.query;
     if (passSure == "parolb123456") {
-        res.render('admin', { entries: filteredEntries, searchQuery });
+        const searchQuery = req.query.search || '';
+        try {
+            const response = await axios.get(`${dbUrl}db`);
+            const entries = response.data;
+    
+            // Check if entries is an object
+            const transformedEntries = Array.isArray(entries)
+                ? entries
+                : Object.entries(entries).map(([key, value]) => ({
+                    title: key,
+                    ...value
+                }));
+    
+            const filteredEntries = transformedEntries.filter(entry => 
+                entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                entry.language.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            res.render('admin', { entries: filteredEntries, searchQuery });
+        } catch (error) {
+            console.error('Error details:', error.message);
+            if (error.response) {
+                return res.status(error.response.status).send(error.response.data);
+            }
+            res.status(500).send('Error retrieving entries from the database.');
+        }
     } else {
         res.status(404).send(`        <!DOCTYPE html>
         <html lang="en">
