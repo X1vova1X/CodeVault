@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API | CodeVault</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #666;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 5px solid #ccc;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CodeVault API</h1>
+
+    <h2>Endpoints</h2>
+    <h3>API URL: https://codevault-nine.vercel.app/{endpoint}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>POST /publish</code></td>
+                <td>Publish an entry.</td>
+                <td><pre>POST /publish<br>{ "title": "Printing", "description": "Printing in Python", "code": "print('Anything')", "language": "python" }</pre></td>
+            </tr>
+            <tr>
+                <td><code>GET /entries</code></td>
+                <td>Get a list of entries.</td>
+                <td><pre>GET /entries</pre></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
