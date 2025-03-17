@@ -15,6 +15,10 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.get('/api', async (req, res) => {
+    res.render("apidocs");
+})
+
 app.get('/entries', async (req, res) => {
     const response = await axios.get(`${dbUrl}db`);
     const entries = response.data;
